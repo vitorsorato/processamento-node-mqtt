@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Hello Wolrd</h1>
+    <h2>
+        <%= text %>
+    </h2> 
+    <script type="text/javascript">
+        var socket = io.connect();
+        socket.on('userCount', function(data){
+            console.log(data);
+        })
+        socket.on('humid', function(data){
+            console.log(data);
+        })
+    </script>   
+</body>
+</html>
