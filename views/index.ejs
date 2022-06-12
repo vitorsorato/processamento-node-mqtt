@@ -3,23 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Controle PID</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="favicon.ico?v=1.1">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hello Wolrd</h1>
-    <h2>
-        <%= text %>
-    </h2> 
+    <div class="box">
+        <section class="secInfo">
+            <ul>
+                <small>
+                    Estado
+                </small>
+                <h1>Conectado</h1>
+                <br>
+                <small>
+                    Temperatura
+                </small>
+                <h1>37C</h1>
+                <!-- <h2>
+                    <%= text %>
+                </h2> -->
+            </ul>
+        </section>
+        <section class="secSlicesTemp">
+            <input class="range" type="range" name="" value="0" min="0" max="80"
+            onchange="rangeSlideTemp(this.value)" onmousemove="rangeSlideTemp(this.value)" onTouchMove="rangeSlideTemp(this.value)">
+            <p class="number" id="rangeValueTemp">
+                0
+            </p>
+        </section>
+        <section class="secSlicesCol">
+            <input class="range rangeCol" type="range" name="" value="0" min="0" max="100"
+            onchange="rangeSlideCol(this.value)" onmousemove="rangeSlideCol(this.value)" onTouchMove="rangeSlideCol(this.value)">
+            <p class="number numberCol" id="rangeValueCol">
+                0
+            </p>
+        </section>
+        <section class="sectionDetails">
+            <img src="/icontemp.png" width="25" height="25" class="imgs">
+            <div class="detailsBox">
+                <p class="details">
+                    Temperatura
+                </p>
+                <p class="smallDetails">
+                    Alterarando a temperatura, o sistema se adpta para mante-la.
+                </p>
+            </div>
+            <img src="/iconcooler.png" class="imgs imgCooler">
+            <div class="detailsBox boxCooler">
+                <p class="details">
+                    Cooler
+                </p>
+                <p class="smallDetails">
+                    Alterarando a velocidade do cooler, uma variação é causada no sistema.                
+                </p>
+            </div>
+        </section>
+        <section class="secEnergy">
+            <div class="discreteProgress" id="mainProgress">
+            </div>
+        </section>
+    </div>
     <script type="text/javascript">
+        function rangeSlideTemp(value){
+            document.getElementById('rangeValueTemp').innerHTML = value + "C";
+        }
+        function rangeSlideCol(value){
+            document.getElementById('rangeValueCol').innerHTML = value + "%";
+        }
         var socket = io.connect();
         socket.on('userCount', function(data){
-            console.log(data);
+            console.log(data.userCount);
         })
-        socket.on('humid', function(data){
+        socket.on('message', function(data){
             console.log(data);
+            const decoder = new TextDecoder();
+            console.log(decoder.decode(data.message));
         })
     </script>   
 </body>

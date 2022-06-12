@@ -9,21 +9,14 @@ const res = require('express/lib/response')
 const mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
 
-app.use(express.static('public'))
-app.use('/css', express.static(__dirname + 'public/css'))
-app.use('/js', express.static(__dirname + 'public/js'))
-app.use('/img', express.static(__dirname + 'public/img'))
 app.set('views', './views')
 app.set('view engine', 'ejs')
+app.use(express.static('public'))
+app.use('/favicon.ico', express.static('/favicon.ico'));
+
 
 app.get('', (req, res) => {
-    var textValue = "Message"
-
-    client.on('message', (topic, message) => {
-        textValue = message
-    })
-
-    res.render('index', {text: textValue})
+    res.render('index', {text: "Message"})
 })
 
 app.get('/about', (req, res) => {
@@ -36,7 +29,7 @@ client.on('connect', () => {
 
 client.on('message', (topic, message) => {
   console.log('received message %s %s', topic, message)
-  io.sockets.emit('humid', {humid:message})
+  io.sockets.emit('message', {message: message})
 
 })
 
