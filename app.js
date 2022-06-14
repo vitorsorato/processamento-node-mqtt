@@ -24,7 +24,9 @@ app.get('/about', (req, res) => {
 })
 
 client.on('connect', () => {
-  client.subscribe('humid')
+  client.subscribe('humid', ( err , granted ) => {
+    console.log(granted);
+  })
 })
 
 client.on('message', (topic, message) => {
@@ -46,5 +48,13 @@ io.on('connection', function(socket){
         userCount--;
         io.sockets.emit('userCount', {userCount:userCount})
         console.log(userCount);
+    })
+
+    socket.on('sendTemperatura', data => {
+      console.log(data);
+    })
+
+    socket.on('sendCooler', data => {
+      console.log(data);
     })
 })

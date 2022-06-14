@@ -28,14 +28,14 @@
         </section>
         <section class="secSlicesTemp">
             <input class="range" type="range" name="" value="0" min="0" max="80"
-            onchange="rangeSlideTemp(this.value)" onmousemove="rangeSlideTemp(this.value)" onTouchMove="rangeSlideTemp(this.value)">
+            onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onmousemove="rangeSlideTemp(this.value)" onTouchMove="rangeSlideTemp(this.value)">
             <p class="number" id="rangeValueTemp">
                 0
             </p>
         </section>
         <section class="secSlicesCol">
             <input class="range rangeCol" type="range" name="" value="0" min="0" max="100"
-            onchange="rangeSlideCol(this.value)" onmousemove="rangeSlideCol(this.value)" onTouchMove="rangeSlideCol(this.value)">
+            onchange="rangeSlideCol(this.value); sendCool(this.value);" onmousemove="rangeSlideCol(this.value)" onTouchMove="rangeSlideCol(this.value)">
             <p class="number numberCol" id="rangeValueCol">
                 0
             </p>
@@ -66,12 +66,21 @@
         </section>
     </div>
     <script type="text/javascript">
+
         function rangeSlideTemp(value){
             document.getElementById('rangeValueTemp').innerHTML = value + "C";
         }
         function rangeSlideCol(value){
             document.getElementById('rangeValueCol').innerHTML = value + "%";
         }
+
+        function sendTemp(value){
+            socket.emit('sendTemperatura', value);
+        }
+        function sendCool(value){
+            socket.emit('sendCooler', value);
+        }
+
         var socket = io.connect();
         socket.on('userCount', function(data){
             console.log(data.userCount);
@@ -81,6 +90,7 @@
             const decoder = new TextDecoder();
             console.log(decoder.decode(data.message));
         })
+        
     </script>   
 </body>
 </html>
