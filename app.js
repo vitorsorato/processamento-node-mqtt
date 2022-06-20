@@ -8,6 +8,8 @@ const req = require('express/lib/request')
 const res = require('express/lib/response')
 const mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
+const port = process.env.PORT || 3000;
+var ultimaTemperatura = "0.0";
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -24,37 +26,64 @@ app.get('/about', (req, res) => {
 })
 
 client.on('connect', () => {
-  client.subscribe('humid', ( err , granted ) => {
+  client.subscribe('PStemperatura', ( err , granted ) => {
+    console.log(granted);
+  })
+  client.subscribe('changePSTemperatura', ( err , granted ) => {
+    console.log(granted);
+  })
+  client.subscribe('changePSCooler', ( err , granted ) => {
     console.log(granted);
   })
 })
 
 client.on('message', (topic, message) => {
   console.log('received message %s %s', topic, message)
-  io.sockets.emit('message', {message: message})
-
+  switch (topic) {
+    case "PStemperatura":
+      ultimaTemperatura = message.toString();
+      io.sockets.emit('ultimaTemperatura', {ultimaTemperatura})
+      break;
+    case "changePSTemperatura":
+      changePSTemperatura = message.toString();
+      io.sockets.emit('changePSTemperatura', {changePSTemperatura})
+      break;
+    case "changePSCooler":
+      changePSCooler = message.toString();
+      io.sockets.emit('changePSCooler', {changePSCooler})
+      break;
+    default:
+      break;
+  }
 })
 
-server.listen(3000, () => {
-  console.log('listening on *:3000');
+server.listen(port, () => {
+  console.log('listening on *:' + port);
 });
 
 var userCount = 0;
 io.on('connection', function(socket){
     userCount++;
     console.log(userCount);
-    io.sockets.emit('userCount', {userCount:userCount})
+    console.log(ultimaTemperatura);
+    io.sockets.emit('data', {
+      userCount:userCount, 
+      ultimaTemperatura:ultimaTemperatura
+    })
     socket.on('disconnect', function(){
         userCount--;
-        io.sockets.emit('userCount', {userCount:userCount})
-        console.log(userCount);
+        io.sockets.emit('data', {
+          userCount:userCount, 
+          ultimaTemperatura:ultimaTemperatura})     
     })
 
     socket.on('sendTemperatura', data => {
       console.log(data);
+      client.publish('changePSTemperatura', data)
     })
 
     socket.on('sendCooler', data => {
       console.log(data);
+      client.publish('changePSCooler', data)
     })
 })

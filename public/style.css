@@ -125,6 +125,12 @@
     transition-duration: 1s;
   }
 
+  .iconEnergy{
+    position: absolute;
+    margin-left: 240px;
+    margin-top: 12px;
+  }
+
   .smallDetails{
     text-align: center;
     font-size: 8px;
@@ -143,6 +149,7 @@
       overflow: hidden;
       box-shadow: inset 0 0 25px rgb(116, 14, 14), 0 0 25px rgba(37, 1, 1, 0.44);
       transform: rotate(-90deg);
+      transition-duration: 0.4s;
   }
 
   .rangeCol{
@@ -158,6 +165,7 @@
       width:0px;
       height:0px;
       box-shadow: -350px 0px 0px 350px #490303;
+      transition-duration: 1s;
   }
 
   .rangeCol::-webkit-slider-thumb{
@@ -188,14 +196,11 @@
   border-radius: 10px;
 }
 
-  h1{
-      color: white;
-      transition-duration: 1s;
-  }
-
   @media screen and (min-width: 600px) {
-    h1{
-        color: #278155
+
+    .iconEnergy{
+      margin-left: 205px;
+      margin-top: 8px;
     }
 
     .box {
@@ -208,7 +213,7 @@
     }
 
     .secInfo {
-      top: 200px;
+      top: 180px;
       transition-duration: 1s;
 
     }

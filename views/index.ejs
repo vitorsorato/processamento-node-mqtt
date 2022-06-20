@@ -20,22 +20,19 @@
                 <small>
                     Temperatura
                 </small>
-                <h1>37C</h1>
-                <!-- <h2>
-                    <%= text %>
-                </h2> -->
+                <h1 id="ultimaTemperatura"></h1>
             </ul>
         </section>
         <section class="secSlicesTemp">
             <input class="range" type="range" name="" value="0" min="0" max="80"
-            onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onmousemove="rangeSlideTemp(this.value)" onTouchMove="rangeSlideTemp(this.value)">
+            id="valueTemp" onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onmousemove="rangeSlideTemp(this.value)" onTouchMove="rangeSlideTemp(this.value)">
             <p class="number" id="rangeValueTemp">
                 0
             </p>
         </section>
         <section class="secSlicesCol">
             <input class="range rangeCol" type="range" name="" value="0" min="0" max="100"
-            onchange="rangeSlideCol(this.value); sendCool(this.value);" onmousemove="rangeSlideCol(this.value)" onTouchMove="rangeSlideCol(this.value)">
+            id="valueCol" onchange="rangeSlideCol(this.value); sendCool(this.value);" onmousemove="rangeSlideCol(this.value)" onTouchMove="rangeSlideCol(this.value)">
             <p class="number numberCol" id="rangeValueCol">
                 0
             </p>
@@ -61,6 +58,7 @@
             </div>
         </section>
         <section class="secEnergy">
+            <img src="/iconenergy.png" width="20" height="20" class="iconEnergy">
             <div class="discreteProgress" id="mainProgress">
             </div>
         </section>
@@ -89,6 +87,23 @@
             console.log(data);
             const decoder = new TextDecoder();
             console.log(decoder.decode(data.message));
+        })
+        socket.on('ultimaTemperatura', function(data){
+            console.log("ultimaTemperatura")
+            console.log(data);
+            document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
+        })
+        socket.on('changePSTemperatura', function(data){
+            console.log("change temperatura")
+            console.log(data.changePSTemperatura);
+            rangeSlideTemp(data.changePSTemperatura);
+            document.getElementById('valueTemp').value = data.changePSTemperatura;
+        })
+        socket.on('changePSCooler', function(data){
+            console.log("change changePSCooler")
+            console.log(data.changePSCooler);
+            rangeSlideCol(data.changePSCooler);
+            document.getElementById('valueCol').value = data.changePSCooler;
         })
         
     </script>   
