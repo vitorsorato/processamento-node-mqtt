@@ -78,7 +78,7 @@ input.rangeCol::-webkit-slider-thumb{
 
 .secSlicesTemp {
   position: absolute;
-  bottom: 110px;
+  bottom: 130px;
   height: 200px;
   width: 100px;
   left: -38px;
@@ -88,7 +88,7 @@ input.rangeCol::-webkit-slider-thumb{
 
 .secSlicesCol {
   position: absolute;
-  bottom: 110px;
+  bottom: 130px;
   height: 200px;
   width: 100px;
   left: 92px;
@@ -98,7 +98,7 @@ input.rangeCol::-webkit-slider-thumb{
 
 .secEnergy {
   position: absolute;
-  bottom: -10px;
+  bottom: 10px;
   height: 50px;
   width: 300px;
   margin-left: 15px;
@@ -126,7 +126,7 @@ input.rangeCol::-webkit-slider-thumb{
 .detailsBox{
   position: absolute;
   z-index: 200;
-  bottom: 65px;
+  bottom: 85px;
   left: 50px;
   width: 100px;
   height: 50px;
@@ -150,7 +150,7 @@ input.rangeCol::-webkit-slider-thumb{
   position: absolute;
   z-index: 200;
   pointer-events: none;
-  bottom: 160px;
+  bottom: 180px;
   left: 85px;
   width: 31px;
   height: 31px;
@@ -158,7 +158,7 @@ input.rangeCol::-webkit-slider-thumb{
 }
 
 .imgCooler{
-  bottom: 162px;
+  bottom: 182px;
   left: 217px;
   width: 25px;
   height: 25px;
