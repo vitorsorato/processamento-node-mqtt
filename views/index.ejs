@@ -2,7 +2,14 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="This is website to control PID.">
+  
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Control PID">
     <title>Controle PID</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
     <link rel="icon" href="favicon.ico?v=1.1">
@@ -17,24 +24,24 @@
                 </small>
                 <h1>Conectado</h1>
                 <br>
-                <small>
+                <small id="smalTemperatura">
                     Temperatura
                 </small>
                 <h1 id="ultimaTemperatura"></h1>
             </ul>
         </section>
         <section class="secSlicesTemp">
-            <input class="range" type="range" name="" value="0" min="0" max="80"
+            <input class="range" type="range" name="" value="27.5" min="27.5" max="77.5" step=".01"
             id="valueTemp" onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onTouchMove="rangeSlideTemp(this.value)">
             <p class="number" id="rangeValueTemp">
-                0
+                27.5C
             </p>
         </section>
         <section class="secSlicesCol">
             <input class="range rangeCol" type="range" name="" value="0" min="0" max="100"
             id="valueCol" onchange="rangeSlideCol(this.value); sendCool(this.value);" onTouchMove="rangeSlideCol(this.value)">
             <p class="number numberCol" id="rangeValueCol">
-                0
+                0%
             </p>
         </section>
         <section class="sectionDetails">
@@ -65,6 +72,9 @@
     </div>
     <script type="text/javascript">
 
+        document.getElementById('smalTemperatura').style.visibility = "hidden";
+
+    
         function rangeSlideTemp(value){
             document.getElementById('rangeValueTemp').innerHTML = value + "C";
         }
@@ -91,6 +101,7 @@
         socket.on('ultimaTemperatura', function(data){
             console.log("ultimaTemperatura")
             console.log(data);
+            document.getElementById('smalTemperatura').style.visibility = "visible";
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
         })
         socket.on('changePSTemperatura', function(data){
