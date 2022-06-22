@@ -173,7 +173,7 @@ input.rangeCol::-webkit-slider-thumb{
 
 .smallDetails{
   text-align: center;
-  font-size: 8px;
+  font-size: 10px;
   margin-top: 5px;
   color: rgba(255, 255, 255, 0.544);
   transition-duration: 1s;

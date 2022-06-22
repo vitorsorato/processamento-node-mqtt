@@ -12,7 +12,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Control PID">
     <title>Controle PID</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js" integrity="sha512-9mpsATI0KClwt+xVZfbcf2lJ8IFBAwsubJ6mI3rtULwyM3fBmQFzj0It4tGqxLOGQwGfJdk/G+fANnxfq9/cew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <link rel="icon" href="favicon.ico?v=1.1">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -31,16 +33,19 @@
                 <h1 id="ultimaTemperatura"></h1>
             </ul>
         </section>
+
+        <!-- <canvas id="myChart"></canvas> -->
+
         <section class="secSlicesTemp">
-            <input class="range" type="range" name="" value="27.5" min="27.5" max="77.5" step=".01"
-            id="valueTemp" onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onTouchMove="rangeSlideTemp(this.value)">
+            <input class="range" type="range" name="" value="27.5" min="27.5" max="77.5" step=".1"
+            id="valueTemp" onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onmousemove="rangeSlideTemp(this.value);" onTouchMove="rangeSlideTemp(this.value)">
             <p class="number" id="rangeValueTemp">
                 27.5C
             </p>
         </section>
         <section class="secSlicesCol">
             <input class="range rangeCol" type="range" name="" value="0" min="0" max="100"
-            id="valueCol" onchange="rangeSlideCol(this.value); sendCool(this.value);" onTouchMove="rangeSlideCol(this.value)">
+            id="valueCol" onchange="rangeSlideCol(this.value); sendCool(this.value);" onmousemove="rangeSlideCol(this.value);" onTouchMove="rangeSlideCol(this.value)">
             <p class="number numberCol" id="rangeValueCol">
                 0%
             </p>
@@ -52,7 +57,7 @@
                     Temperatura
                 </p>
                 <p class="smallDetails">
-                    Alterarando a temperatura, o sistema se adpta para mante-la.
+                    Defina a Temperatura do sistema.
                 </p>
             </div>
             <img src="/iconcooler.png" class="imgs imgCooler">
@@ -61,7 +66,7 @@
                     Cooler
                 </p>
                 <p class="smallDetails">
-                    Alterarando a velocidade do cooler, uma variação é causada no sistema.                
+                    Aletere a velocidade do Cooler.                
                 </p>
             </div>
         </section>
@@ -117,7 +122,37 @@
             rangeSlideCol(data.changePSCooler);
             document.getElementById('valueCol').value = data.changePSCooler;
         })
-        
+
+        const labels = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+                
     </script>   
 </body>
 </html>
