@@ -9,7 +9,7 @@ const res = require('express/lib/response')
 const mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
 const port = process.env.PORT || 3000;
-var ultimaTemperatura = "0.0";
+var ultimaTemperatura = 27.5;
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -29,6 +29,9 @@ client.on('connect', () => {
   client.subscribe('PStemperatura', ( err , granted ) => {
     console.log(granted);
   })
+  client.subscribe('PSPID', ( err , granted ) => {
+    console.log(granted);
+  })
   client.subscribe('changePSTemperatura', ( err , granted ) => {
     console.log(granted);
   })
@@ -38,11 +41,16 @@ client.on('connect', () => {
 })
 
 client.on('message', (topic, message) => {
-  console.log('received message %s %s', topic, message)
+  console.log('received message %s %s', topic, message);
+
   switch (topic) {
     case "PStemperatura":
       ultimaTemperatura = message.toString();
       io.sockets.emit('ultimaTemperatura', {ultimaTemperatura})
+      break;
+    case "PSPID":
+      PID = message.toString();
+      io.sockets.emit('PID', {PID})
       break;
     case "changePSTemperatura":
       changePSTemperatura = message.toString();
@@ -55,6 +63,7 @@ client.on('message', (topic, message) => {
     default:
       break;
   }
+  
 })
 
 server.listen(port, () => {

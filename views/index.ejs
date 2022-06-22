@@ -82,7 +82,7 @@
 
     
         function rangeSlideTemp(value){
-            document.getElementById('rangeValueTemp').innerHTML = value + "C";
+            document.getElementById('rangeValueTemp').innerHTML = Number(value).toFixed(1) + "C";
         }
         function rangeSlideCol(value){
             document.getElementById('rangeValueCol').innerHTML = value + "%";
@@ -114,7 +114,7 @@
             console.log("change temperatura")
             console.log(data.changePSTemperatura);
             rangeSlideTemp(data.changePSTemperatura);
-            document.getElementById('valueTemp').value = data.changePSTemperatura;
+            document.getElementById('valueTemp').value = Number(data.changePSTemperatura).toFixed(1);
         })
         socket.on('changePSCooler', function(data){
             console.log("change changePSCooler")
