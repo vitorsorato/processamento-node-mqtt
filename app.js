@@ -66,7 +66,7 @@ client.on('message', (topic, message) => {
       break;
     case "PSPID":
       PID = message.toString();
-      io.sockets.emit('PID', {PID})
+      io.sockets.emit('PSPID', {PID})
       break;
     case "changePSTemperatura":
       changePSTemperatura = message.toString();

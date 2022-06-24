@@ -172,10 +172,17 @@
             rangeSlideTemp(data.changePSTemperatura);
             document.getElementById('valueTemp').value = Number(data.changePSTemperatura).toFixed(1);
 
-            document.getElementById("numberEnergy").style.backgroundPosition = `-${data.PID/255*100}%`
+            document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
 
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
 
+
+        })
+
+        socket.on('PSPID', function(data){
+            console.log("PSPID");
+            document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
+            document.getElementById('numberEnergy').textContent = `${Number(data.PID/255*100).toFixed(1)}%`;
 
         })
         socket.on('ultimaTemperatura', function(data){
