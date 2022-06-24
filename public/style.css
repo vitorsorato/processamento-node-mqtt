@@ -262,7 +262,7 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   padding-right: 5px;
   background-color: #000000;
   box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.378), 0 0 5px rgb(13, 159, 152);
-  color: #ffffff;
+  color: transparent;
   text-align: center;
   font-size: 10px;
   line-height: 20px;
