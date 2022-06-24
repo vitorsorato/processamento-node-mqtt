@@ -78,7 +78,7 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
 
 .secInfo {
   position: absolute;
-  top: 40px;
+  top: 20px;
   transition-duration: 1s;
 }
 

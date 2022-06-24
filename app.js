@@ -104,7 +104,6 @@ io.on('connection', function(socket){
     console.log(userCount);
     console.log(ultimaTemperatura);
     io.sockets.emit('data', {
-      userCount:userCount, 
       ultimaTemperatura:ultimaTemperatura,
       changePSTemperatura:changePSTemperatura,
       changePSCooler:changePSCooler,
@@ -113,11 +112,14 @@ io.on('connection', function(socket){
       changePSKi: changePSKi,
       changePSKd: changePSKd,
     })
+    io.sockets.emit('userCount', {
+      userCount:userCount, 
+    })
     socket.on('disconnect', function(){
         userCount--;
-        io.sockets.emit('data', {
+        io.sockets.emit('userCount', {
           userCount:userCount, 
-          ultimaTemperatura:ultimaTemperatura})     
+        })     
     })
 
     socket.on('sendTemperatura', data => {
@@ -131,12 +133,10 @@ io.on('connection', function(socket){
     })
 
     socket.on('sendKp', data => {
-      console.log(data);
       client.publish('changePSKp', data)
     })
 
     socket.on('sendKi', data => {
-      console.log(data);
       client.publish('changePSKi', data)
     })
 

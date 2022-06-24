@@ -152,7 +152,7 @@
 
         var socket = io.connect();
         socket.on('userCount', function(data){
-            console.log(data.userCount);
+            console.log("Usuários Conectados: " + data.userCount);
         })
         socket.on('data', function(data){
 
@@ -200,12 +200,12 @@
             document.getElementById("current-value-kp").style.left = `${data.changePSKp*7}%`
         })
         socket.on('changePSKi', function(data){
-            document.getElementById("current-value-kp").innerText = Number(data.changePSKi).toFixed(1).toString() + "kp";
-            document.getElementById("current-value-kp").style.left = `${data.changePSKi*7}%`
+            document.getElementById("current-value-ki").innerText = Number(data.changePSKi).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-ki").style.left = `${data.changePSKi*7}%`
         })
         socket.on('changePSKd', function(data){
-            document.getElementById("current-value-kp").innerText = Number(data.changePSKd).toFixed(1).toString() + "kp";
-            document.getElementById("current-value-kp").style.left = `${data.changePSKd*7}%`
+            document.getElementById("current-value-kd").innerText = Number(data.changePSKd).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-kd").style.left = `${data.changePSKd*7}%`
         })
 
 
