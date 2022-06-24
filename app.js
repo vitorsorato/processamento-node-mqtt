@@ -48,10 +48,10 @@ client.on('connect', () => {
   client.subscribe('changePSKp', ( err , granted ) => {
     console.log(granted);
   })
-  client.subscribe('changePSKpi', ( err , granted ) => {
+  client.subscribe('changePSKi', ( err , granted ) => {
     console.log(granted);
   })
-  client.subscribe('changePSKpd', ( err , granted ) => {
+  client.subscribe('changePSKd', ( err , granted ) => {
     console.log(granted);
   })
 })
@@ -128,5 +128,20 @@ io.on('connection', function(socket){
     socket.on('sendCooler', data => {
       console.log(data);
       client.publish('changePSCooler', data)
+    })
+
+    socket.on('sendKp', data => {
+      console.log(data);
+      client.publish('changePSKp', data)
+    })
+
+    socket.on('sendKi', data => {
+      console.log(data);
+      client.publish('changePSKi', data)
+    })
+
+    socket.on('sendKd', data => {
+      console.log(data);
+      client.publish('changePSKd', data)
     })
 })

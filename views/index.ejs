@@ -35,7 +35,8 @@
                     <div class="show-value" id="show-value-kp">
                         <span id="current-value-kp"></span>
                     </div>
-                    <input id="custom-slider-kp" type="range" class="constRange" value="10.0" min="0.0" max="10.0" step=".1">
+                    <input id="custom-slider-kp" type="range" class="constRange" value="10.0" min="0.0" max="10.0" step=".1"
+                    onchange="sendKp(this.value);">
                 </div>
             </ul>
             <ul>
@@ -43,7 +44,8 @@
                     <div class="show-value" id="show-value-ki">
                         <span id="current-value-ki"></span>
                     </div>
-                    <input id="custom-slider-ki" type="range" class="constRange" value="5.0" min="0.0" max="10.0" step=".1">
+                    <input id="custom-slider-ki" type="range" class="constRange" value="5.0" min="0.0" max="10.0" step=".1"
+                    onchange="sendKi(this.value);">
                 </div>
             </ul>
             <ul>
@@ -51,7 +53,8 @@
                     <div class="show-value" id="show-value-kd">
                         <span id="current-value-kd"></span>
                     </div>
-                    <input id="custom-slider-kd" type="range" class="constRange" value="5.0" min="0.0" max="10.0" step=".1">
+                    <input id="custom-slider-kd" type="range" class="constRange" value="5.0" min="0.0" max="10.0" step=".1"
+                    onchange="sendKd(this.value);">
                 </div>
             </ul>
         </section>
@@ -135,6 +138,18 @@
             socket.emit('sendCooler', value);
         }
 
+        function sendKp(value){
+            socket.emit('sendKp', value);
+        }
+
+        function sendKi(value){
+            socket.emit('sendKi', value);
+        }
+
+        function sendKd(value){
+            socket.emit('sendKd', value);
+        }
+
         var socket = io.connect();
         socket.on('userCount', function(data){
             console.log(data.userCount);
@@ -158,6 +173,9 @@
             document.getElementById('valueTemp').value = Number(data.changePSTemperatura).toFixed(1);
 
             document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
+
+            document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
+
 
         })
         socket.on('ultimaTemperatura', function(data){
