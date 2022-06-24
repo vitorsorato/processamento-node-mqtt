@@ -172,7 +172,7 @@
             rangeSlideTemp(data.changePSTemperatura);
             document.getElementById('valueTemp').value = Number(data.changePSTemperatura).toFixed(1);
 
-            document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
+            document.getElementById("numberEnergy").style.backgroundPosition = `-${data.PID/255*100}%`
 
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
 
@@ -200,11 +200,11 @@
             document.getElementById("current-value-kp").style.left = `${data.changePSKp*7}%`
         })
         socket.on('changePSKi', function(data){
-            document.getElementById("current-value-ki").innerText = Number(data.changePSKi).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-ki").innerText = Number(data.changePSKi).toFixed(1).toString() + "ki";
             document.getElementById("current-value-ki").style.left = `${data.changePSKi*7}%`
         })
         socket.on('changePSKd', function(data){
-            document.getElementById("current-value-kd").innerText = Number(data.changePSKd).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-kd").innerText = Number(data.changePSKd).toFixed(1).toString() + "kd";
             document.getElementById("current-value-kd").style.left = `${data.changePSKd*7}%`
         })
 
