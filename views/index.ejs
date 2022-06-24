@@ -29,28 +29,29 @@
                     --
                 </h1>
             </ul>
+            <br>
             <ul>
                 <div class="slider">
                     <div class="show-value">
-                        <span id="current-value-pk">0.0kp</span>
+                        <span id="current-value-kp">10.0kp</span>
                     </div>
-                    <input id="custom-slider-kp" type="range" class="constRange" value="0.0" min="0.0" max="10.0" step=".1">
+                    <input id="custom-slider-kp" type="range" class="constRange" value="10.0" min="0.0" max="10.0" step=".1">
                 </div>
             </ul>
             <ul>
                 <div class="slider">
                     <div class="show-value">
-                        <span id="current-value-ki">0.0ki</span>
+                        <span id="current-value-ki">5.0ki</span>
                     </div>
-                    <input id="custom-slider-ki" type="range" class="constRange" value="0.0" min="0.0" max="10.0" step=".1">
+                    <input id="custom-slider-ki" type="range" class="constRange" value="5.0" min="0.0" max="10.0" step=".1">
                 </div>
             </ul>
             <ul>
                 <div class="slider">
                     <div class="show-value">
-                        <span id="current-value-kd">0.0kd</span>
+                        <span id="current-value-kd">5.0kd</span>
                     </div>
-                    <input id="custom-slider-kd" type="range" class="constRange" value="0.0" min="0.0" max="10.0" step=".1">
+                    <input id="custom-slider-kd" type="range" class="constRange" value="5.0" min="0.0" max="10.0" step=".1">
                 </div>
             </ul>
         </section>
@@ -99,10 +100,16 @@
     </div>
     <script type="text/javascript">
 
+        document.getElementById("current-value-kp").style.left = `${10*7}%`
+        document.getElementById("current-value-ki").style.left = `${5*7}%`
+        document.getElementById("current-value-kd").style.left = `${5*7}%`
+
+
+
         document.getElementById("custom-slider-kp").addEventListener("input", function(event){
             let value = event.target.value;
-            document.getElementById("current-value-pk").innerText = Number(value).toFixed(1).toString() + "kp";
-            document.getElementById("current-value-pk").style.left = `${value*7}%`
+            document.getElementById("current-value-kp").innerText = Number(value).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-kp").style.left = `${value*7}%`
         })
 
         document.getElementById("custom-slider-ki").addEventListener("input", function(event){
@@ -156,6 +163,14 @@
             console.log(data.changePSCooler);
             rangeSlideCol(data.changePSCooler);
             document.getElementById('valueCol').value = data.changePSCooler;
+        })
+        socket.on('PID', function(data){
+            console.log("PID")
+            console.log(data.PID);
+            console.log(parseInt(data.PID))
+        })
+        socket.on('data', function(data){
+            console.log(data);
         })
 
         const labels = [

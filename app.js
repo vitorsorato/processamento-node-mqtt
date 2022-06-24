@@ -10,6 +10,13 @@ const mqtt = require('mqtt')
 var client = mqtt.connect('mqtt://broker.hivemq.com')
 const port = process.env.PORT || 3000;
 var ultimaTemperatura = 27.5;
+var changePSTemperatura = 27.5;
+var changePSCooler = 0.0;
+var PID = 0;
+var changePSKp = 10.0;
+var changePSKi = 5.0;
+var changePSKd = 5.0;
+
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -38,6 +45,15 @@ client.on('connect', () => {
   client.subscribe('changePSCooler', ( err , granted ) => {
     console.log(granted);
   })
+  client.subscribe('changePSKp', ( err , granted ) => {
+    console.log(granted);
+  })
+  client.subscribe('changePSKpi', ( err , granted ) => {
+    console.log(granted);
+  })
+  client.subscribe('changePSKpd', ( err , granted ) => {
+    console.log(granted);
+  })
 })
 
 client.on('message', (topic, message) => {
@@ -60,6 +76,18 @@ client.on('message', (topic, message) => {
       changePSCooler = message.toString();
       io.sockets.emit('changePSCooler', {changePSCooler})
       break;
+    case "changePSKp":
+      changePSKp = message.toString();
+      io.sockets.emit('changePSKp', {changePSKp})
+      break;
+    case "changePSKi":
+      changePSKi = message.toString();
+      io.sockets.emit('changePSKi', {changePSKi})
+      break;
+    case "changePSKd":
+      changePSKd = message.toString();
+      io.sockets.emit('changePSKd', {changePSKd})
+      break;
     default:
       break;
   }
@@ -77,7 +105,13 @@ io.on('connection', function(socket){
     console.log(ultimaTemperatura);
     io.sockets.emit('data', {
       userCount:userCount, 
-      ultimaTemperatura:ultimaTemperatura
+      ultimaTemperatura:ultimaTemperatura,
+      changePSTemperatura:changePSTemperatura,
+      changePSCooler:changePSCooler,
+      PID:PID,
+      changePSKp: changePSKp,
+      changePSKi: changePSKi,
+      changePSKd: changePSKd,
     })
     socket.on('disconnect', function(){
         userCount--;
