@@ -22,29 +22,50 @@
     <div class="box">
         <section class="secInfo">
             <ul>
-                <small>
-                    Estado
-                </small>
-                <h1>Conectado</h1>
-                <br>
                 <small id="smalTemperatura">
                     Temperatura
                 </small>
-                <h1 id="ultimaTemperatura"></h1>
+                <h1 id="ultimaTemperatura">
+                    --
+                </h1>
+            </ul>
+            <ul>
+                <div class="slider">
+                    <div class="show-value">
+                        <span id="current-value-pk">0.0kp</span>
+                    </div>
+                    <input id="custom-slider-kp" type="range" class="constRange" value="0.0" min="0.0" max="10.0" step=".1">
+                </div>
+            </ul>
+            <ul>
+                <div class="slider">
+                    <div class="show-value">
+                        <span id="current-value-ki">0.0ki</span>
+                    </div>
+                    <input id="custom-slider-ki" type="range" class="constRange" value="0.0" min="0.0" max="10.0" step=".1">
+                </div>
+            </ul>
+            <ul>
+                <div class="slider">
+                    <div class="show-value">
+                        <span id="current-value-kd">0.0kd</span>
+                    </div>
+                    <input id="custom-slider-kd" type="range" class="constRange" value="0.0" min="0.0" max="10.0" step=".1">
+                </div>
             </ul>
         </section>
 
         <!-- <canvas id="myChart"></canvas> -->
 
         <section class="secSlicesTemp">
-            <input class="range" type="range" name="" value="27.5" min="27.5" max="77.5" step=".1"
+            <input class="range rangeVertical" type="range" name="" value="27.5" min="27.5" max="77.5" step=".1"
             id="valueTemp" onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onmousemove="rangeSlideTemp(this.value);" onTouchMove="rangeSlideTemp(this.value)">
             <p class="number" id="rangeValueTemp">
                 27.5C
             </p>
         </section>
         <section class="secSlicesCol">
-            <input class="range rangeCol" type="range" name="" value="0" min="0" max="100"
+            <input class="rangeCol rangeVertical Cool" type="range" name="" value="0" min="0" max="100"
             id="valueCol" onchange="rangeSlideCol(this.value); sendCool(this.value);" onmousemove="rangeSlideCol(this.value);" onTouchMove="rangeSlideCol(this.value)">
             <p class="number numberCol" id="rangeValueCol">
                 0%
@@ -78,9 +99,24 @@
     </div>
     <script type="text/javascript">
 
-        document.getElementById('smalTemperatura').style.visibility = "hidden";
+        document.getElementById("custom-slider-kp").addEventListener("input", function(event){
+            let value = event.target.value;
+            document.getElementById("current-value-pk").innerText = Number(value).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-pk").style.left = `${value*7}%`
+        })
 
-    
+        document.getElementById("custom-slider-ki").addEventListener("input", function(event){
+            let value = event.target.value;
+            document.getElementById("current-value-ki").innerText = Number(value).toFixed(1).toString() + "ki";
+            document.getElementById("current-value-ki").style.left = `${value*7}%`
+        })
+
+        document.getElementById("custom-slider-kd").addEventListener("input", function(event){
+            let value = event.target.value;
+            document.getElementById("current-value-kd").innerText = Number(value).toFixed(1).toString() + "kd";
+            document.getElementById("current-value-kd").style.left = `${value*7}%`
+        })
+
         function rangeSlideTemp(value){
             document.getElementById('rangeValueTemp').innerHTML = Number(value).toFixed(1) + "C";
         }
@@ -107,7 +143,6 @@
         socket.on('ultimaTemperatura', function(data){
             console.log("ultimaTemperatura")
             console.log(data);
-            document.getElementById('smalTemperatura').style.visibility = "visible";
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
         })
         socket.on('changePSTemperatura', function(data){
