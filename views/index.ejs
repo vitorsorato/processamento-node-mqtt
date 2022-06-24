@@ -195,10 +195,20 @@
             rangeSlideCol(data.changePSCooler);
             document.getElementById('valueCol').value = data.changePSCooler;
         })
-        socket.on('PID', function(data){
-            document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
-            document.getElementById('numberEnergy').textContent = (data.PID/255*100).toString() + "%";
+        socket.on('changePSKp', function(data){
+            document.getElementById("current-value-kp").innerText = Number(data.changePSKp).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-kp").style.left = `${data.changePSKp*7}%`
         })
+        socket.on('changePSKi', function(data){
+            document.getElementById("current-value-kp").innerText = Number(data.changePSKi).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-kp").style.left = `${data.changePSKi*7}%`
+        })
+        socket.on('changePSKd', function(data){
+            document.getElementById("current-value-kp").innerText = Number(data.changePSKd).toFixed(1).toString() + "kp";
+            document.getElementById("current-value-kp").style.left = `${data.changePSKd*7}%`
+        })
+
+
 
         const labels = [
             'January',
