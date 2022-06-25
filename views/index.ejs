@@ -28,8 +28,16 @@
                 <h1 id="ultimaTemperatura">
                     --
                 </h1>
+                <br>
+                <p class="numberEnergy" id="numberEnergy">
+                    0%
+                </p>
+                <img src="/iconenergy.png" width="20" height="20" class="iconEnergy">
+                <div class="discreteProgress" id="mainProgress">
+                </div>
             </ul>
-            <br>
+        </section>
+        <section class="secConsts" id="secConsts">
             <ul>
                 <div class="slider">
                     <div class="show-value" id="show-value-kp">
@@ -58,17 +66,18 @@
                 </div>
             </ul>
         </section>
+        <section class="secChart" id="secChart">
+            <canvas id="myChart" ></canvas>
+        </section>
 
-        <!-- <canvas id="myChart"></canvas> -->
-
-        <section class="secSlicesTemp">
+        <section class="secSlicesTemp" id="secSlicesTemp">
             <input class="range rangeVertical" type="range" name="" value="27.5" min="27.5" max="77.5" step=".1"
             id="valueTemp" onchange="rangeSlideTemp(this.value); sendTemp(this.value);" onmousemove="rangeSlideTemp(this.value);" onTouchMove="rangeSlideTemp(this.value)">
             <p class="number" id="rangeValueTemp">
                 27.5C
             </p>
         </section>
-        <section class="secSlicesCol">
+        <section class="secSlicesCol" id="secSlicesCol">
             <input class="rangeCol rangeVertical Cool" type="range" name="" value="0" min="0" max="100"
             id="valueCol" onchange="rangeSlideCol(this.value); sendCool(this.value);" onmousemove="rangeSlideCol(this.value);" onTouchMove="rangeSlideCol(this.value)">
             <p class="number numberCol" id="rangeValueCol">
@@ -76,8 +85,8 @@
             </p>
         </section>
         <section class="sectionDetails">
-            <img src="/icontemp.png" width="25" height="25" class="imgs">
-            <div class="detailsBox">
+            <img src="/icontemp.png" width="25" height="25" class="imgs" id="imgTemp">
+            <div class="detailsBox" id="detailsBox">
                 <p class="details">
                     Temperatura
                 </p>
@@ -85,8 +94,8 @@
                     Defina a Temperatura do sistema.
                 </p>
             </div>
-            <img src="/iconcooler.png" class="imgs imgCooler">
-            <div class="detailsBox boxCooler">
+            <img src="/iconcooler.png" class="imgs imgCooler" id="imgCooler">
+            <div class="detailsBox boxCooler" id="detailsBoxCooler">
                 <p class="details">
                     Cooler
                 </p>
@@ -95,33 +104,129 @@
                 </p>
             </div>
         </section>
-        <section class="secEnergy">
-            <p class="numberEnergy" id="numberEnergy">
-                0%
-            </p>
-            <img src="/iconenergy.png" width="20" height="20" class="iconEnergy">
-            <div class="discreteProgress" id="mainProgress">
+        <section class="secButtons">
+            <div class="buttom bConstants" id="bConstants" >
+                <img src="/bConstant.png" width="20" height="19" class="bIcons">
+                <small class="btSmall">
+                    Constantes
+                </small>
+            </div>
+            <div class="buttom bControles" id="bControles">
+                <img src="/bChart.png" width="20" height="19" class="bIcons bIconControl">
+                <small class="btSmall btSmallControl">
+                    Controles
+                </small>
+            </div>
+            <div class="buttom bGraficos" id="bGraficos">
+                <img src="/bGrafico.png" width="20" height="19" class="bIcons bIconControl">
+                <small class="btSmall btSmallGraficos">
+                    Gráficos
+                </small>
             </div>
         </section>
     </div>
     <script type="text/javascript">
+        var stemp = 27.5;
+        var spid = 0;
+
+        var temps = [];
+        var labels = [];
+        var pids = []
+
+        document.getElementById("bConstants").style.opacity = '0.5';
+        document.getElementById("bControles").style.opacity = '1.0';
+        document.getElementById("bGraficos").style.opacity = '0.5';
+
+        document.getElementById('bConstants').onclick = function() {
+            document.getElementById("bConstants").style.opacity = '1.0';
+            document.getElementById("bControles").style.opacity = '0.5';
+            document.getElementById("bGraficos").style.opacity = '0.5';
+
+            document.getElementById("secConsts").style.display = "initial";
+            document.getElementById("secChart").style.display = "none";
+            document.getElementById("secSlicesTemp").style.display = "none";
+            document.getElementById("secSlicesCol").style.display = "none";
+            document.getElementById("imgTemp").style.display = "none";
+            document.getElementById("imgCooler").style.display = "none";
+            document.getElementById("detailsBox").style.display = "none";
+            document.getElementById("detailsBoxCooler").style.display = "none";
+        };
+
+        document.getElementById('bControles').onclick = function() {
+            document.getElementById("bConstants").style.opacity = '0.5';
+            document.getElementById("bControles").style.opacity = '1.0';
+            document.getElementById("bGraficos").style.opacity = '0.5';
+
+            document.getElementById("secConsts").style.display = "none";
+            document.getElementById("secChart").style.display = "none";
+            document.getElementById("secSlicesTemp").style.display = "initial";
+            document.getElementById("secSlicesCol").style.display = "initial";
+            document.getElementById("imgTemp").style.display = "initial";
+            document.getElementById("imgCooler").style.display = "initial";
+            document.getElementById("detailsBox").style.display = "initial";
+            document.getElementById("detailsBoxCooler").style.display = "initial";
+        };
+
+        document.getElementById('bGraficos').onclick = function() {
+            document.getElementById("bConstants").style.opacity = '0.5';
+            document.getElementById("bControles").style.opacity = '0.5';
+            document.getElementById("bGraficos").style.opacity = '1.0';
+
+            document.getElementById("secConsts").style.display = "none";
+            document.getElementById("secChart").style.display = "initial";
+            document.getElementById("secSlicesTemp").style.display = "none";
+            document.getElementById("secSlicesCol").style.display = "none";
+            document.getElementById("imgTemp").style.display = "none";
+            document.getElementById("imgCooler").style.display = "none";
+            document.getElementById("detailsBox").style.display = "none";
+            document.getElementById("detailsBoxCooler").style.display = "none";
+        };
+
+        window.addEventListener('resize', function(event){
+            var newWidth = window.innerWidth;
+            var newHeight = window.innerHeight;
+            console.log(newWidth);
+            if(newWidth <= 800){
+                document.getElementById("bConstants").style.opacity = '0.5';
+                document.getElementById("bControles").style.opacity = '1.0';
+                document.getElementById("bGraficos").style.opacity = '0.5';
+
+                document.getElementById("secConsts").style.display = "none";
+                document.getElementById("secChart").style.display = "none";
+                document.getElementById("secSlicesTemp").style.display = "initial";
+                document.getElementById("secSlicesCol").style.display = "initial";
+                document.getElementById("imgTemp").style.display = "initial";
+                document.getElementById("imgCooler").style.display = "initial";
+                document.getElementById("detailsBox").style.display = "initial";
+                document.getElementById("detailsBoxCooler").style.display = "initial";
+            }else{
+                document.getElementById("secConsts").style.display = "initial";
+                document.getElementById("secChart").style.display = "initial";
+                document.getElementById("secSlicesTemp").style.display = "initial";
+                document.getElementById("secSlicesCol").style.display = "initial";
+                document.getElementById("imgTemp").style.display = "initial";
+                document.getElementById("imgCooler").style.display = "initial";
+                document.getElementById("detailsBox").style.display = "initial";
+                document.getElementById("detailsBoxCooler").style.display = "initial";
+            }
+        });
 
         document.getElementById("custom-slider-kp").addEventListener("input", function(event){
             let value = event.target.value;
             document.getElementById("current-value-kp").innerText = Number(value).toFixed(1).toString() + "kp";
-            document.getElementById("current-value-kp").style.left = `${value*7}%`
+            document.getElementById("current-value-kp").style.left = `${value*9}%`
         })
 
         document.getElementById("custom-slider-ki").addEventListener("input", function(event){
             let value = event.target.value;
             document.getElementById("current-value-ki").innerText = Number(value).toFixed(1).toString() + "ki";
-            document.getElementById("current-value-ki").style.left = `${value*7}%`
+            document.getElementById("current-value-ki").style.left = `${value*9}%`
         })
 
         document.getElementById("custom-slider-kd").addEventListener("input", function(event){
             let value = event.target.value;
             document.getElementById("current-value-kd").innerText = Number(value).toFixed(1).toString() + "kd";
-            document.getElementById("current-value-kd").style.left = `${value*7}%`
+            document.getElementById("current-value-kd").style.left = `${value*9}%`
         })
 
         function rangeSlideTemp(value){
@@ -159,13 +264,13 @@
             console.log(data);
 
             document.getElementById("current-value-kp").innerText = Number(data.changePSKp).toFixed(1).toString() + "kp";
-            document.getElementById("current-value-kp").style.left = `${data.changePSKp*7}%`
+            document.getElementById("current-value-kp").style.left = `${data.changePSKp*8.5}%`
 
             document.getElementById("current-value-ki").innerText = Number(data.changePSKi).toFixed(1).toString() + "ki";
-            document.getElementById("current-value-ki").style.left = `${data.changePSKi*7}%`
+            document.getElementById("current-value-ki").style.left = `${data.changePSKi*8.5}%`
             
             document.getElementById("current-value-kd").innerText = Number(data.changePSKd).toFixed(1).toString() + "kd";
-            document.getElementById("current-value-kd").style.left = `${data.changePSKd*7}%`
+            document.getElementById("current-value-kd").style.left = `${data.changePSKd*8.5}%`
 
             rangeSlideCol(data.changePSCooler);
             document.getElementById('valueCol').value = data.changePSCooler;
@@ -183,11 +288,14 @@
             console.log("PSPID");
             document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
             document.getElementById('numberEnergy').textContent = `${Number(data.PID/255*100).toFixed(1)}%`;
+            spid = data.PID;
 
         })
         socket.on('ultimaTemperatura', function(data){
             console.log("ultimaTemperatura");
             console.log(data);
+            stemp = data.ultimaTemperatura;
+
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
         })
         socket.on('changePSTemperatura', function(data){
@@ -204,48 +312,73 @@
         })
         socket.on('changePSKp', function(data){
             document.getElementById("current-value-kp").innerText = Number(data.changePSKp).toFixed(1).toString() + "kp";
-            document.getElementById("current-value-kp").style.left = `${data.changePSKp*7}%`
+            document.getElementById("current-value-kp").style.left = `${data.changePSKp*8.5}%`
         })
         socket.on('changePSKi', function(data){
             document.getElementById("current-value-ki").innerText = Number(data.changePSKi).toFixed(1).toString() + "ki";
-            document.getElementById("current-value-ki").style.left = `${data.changePSKi*7}%`
+            document.getElementById("current-value-ki").style.left = `${data.changePSKi*8.5}%`
         })
         socket.on('changePSKd', function(data){
             document.getElementById("current-value-kd").innerText = Number(data.changePSKd).toFixed(1).toString() + "kd";
-            document.getElementById("current-value-kd").style.left = `${data.changePSKd*7}%`
+            document.getElementById("current-value-kd").style.left = `${data.changePSKd*8.5}%`
         })
 
+        function myLoop() {
+            setTimeout(function() {
+
+                if(labels.length > 150){
+                    labels.shift()
+                    temps.shift()
+                    pids.shift()
+                }
+
+                var d = new Date(); // for now
+                datetext = pad(d.getMinutes())+"."+pad(d.getSeconds());
+                labels.push("");
+                temps.push(stemp);
+                pids.push(spid);
+
+                myChart.update();
+
+                myLoop();
+            }, 1500)
+        }
+
+        myLoop();
 
 
-        const labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-        ];
-
-        const data = {
+        data = {
             labels: labels,
-            datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-            }]
+            datasets: [
+                {
+                    label: 'Temperatura',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: temps,
+                    }, 
+                {
+                    label: 'PID',
+                    backgroundColor: 'rgb(186, 217, 179)',
+                    borderColor: 'rgb(186, 217, 179)',
+                    data: pids,
+                }
+        ]
         };
 
-        const config = {
+        config = {
             type: 'line',
             data: data,
             options: {}
         };
 
-        const myChart = new Chart(
+        myChart = new Chart(
             document.getElementById('myChart'),
             config
         );
+
+        function pad(num) {
+            return num.toString().padStart(2, '0');
+        }
                 
     </script>   
 </body>

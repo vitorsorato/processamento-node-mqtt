@@ -17,6 +17,7 @@ html, body{
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+    display: inline;
 }
 
 .container{
@@ -82,6 +83,22 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   transition-duration: 1s;
 }
 
+.secChart{
+  position: absolute;
+  bottom: 120px;
+  left: -20px;
+  width: 350px;
+  transition-duration: 1s;
+}
+
+.secConsts {
+  position: absolute;
+  top: unset;
+  bottom: 120px;
+  left: 48px;
+  transition-duration: 1s;
+}
+
 .secSlicesTemp {
   position: absolute;
   bottom: 130px;
@@ -99,15 +116,6 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   width: 100px;
   left: 92px;
   align-items: center;
-  transition-duration: 1s;
-}
-
-.secEnergy {
-  position: absolute;
-  bottom: 10px;
-  height: 50px;
-  width: 300px;
-  margin-left: 15px;
   transition-duration: 1s;
 }
 
@@ -173,8 +181,8 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
 
 .iconEnergy{
   position: absolute;
-  margin-left: 234px;
-  margin-top: 12px;
+  margin-left: 200px;
+  margin-top: 8px;
 }
 
 .smallDetails{
@@ -229,8 +237,6 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
 }
 
 .discreteProgress{
-  margin-left: 35px;
-  margin-top: 5px;
   width: 230px;
   height: 35px;
   background: repeating-linear-gradient(#2A2A2A, #2A2A2A), 
@@ -243,8 +249,8 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
 }
 
 .constRange{
-  margin-top: 15px;
-  width: 100px;
+  margin-top: 22px;
+  width: 200px;
   height: 10px;
   -webkit-appearance: none;
   outline: none;
@@ -260,7 +266,7 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   left: 0px;
   height: 20px;
   width: 30px;
-  margin-top: 8px;
+  margin-top: 15px;
   pointer-events: none;
   padding-left: 5px;
   padding-right: 5px;
@@ -275,7 +281,7 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
 }
 
 .slider input[type="range"]{
-  width: 100%;
+  width: 230px;
   height: 5px;
   border-radius: 3px;
   background: #000000;
@@ -293,30 +299,88 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
 .numberEnergy{
   position: absolute;
   text-align: center;
-  top: 16px;
+  top: 90px;
   font-size: 10px;
-  right: 70px;
+  right: 35px;
 }
 
-@media screen and (min-width: 600px) {
-  
+.secButtons{
+  position: fixed;
+  bottom: 30px;
+  width: 300px;
+  height: 50px;
+  margin-left: 15px;
+  background-color: #000000;
+  transition-duration: 1s;
+  text-align: center;
+}
 
-  .numberEnergy{
+.btSmall{
+  position: relative;
+  font-size: 9px;
+  bottom: -22px;
+  margin-right: 10px;
+}
+
+.btSmallControl{
+  margin-right: 20px;
+}
+
+.btSmallGraficos{
+  margin-right: 38px;
+}
+
+.bIcons{
+  position: relative;
+  top: 10px;
+  left: 38px;
+}
+
+.bIconControl{
+  left: 32px;
+}
+
+.buttom{
+  cursor: pointer;
+  position: absolute;
+  width: 96px;
+  height: 50px;
+  background-color: #3B5994;
+}
+
+.bConstants{
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.bControles{
+  margin-left: 102px;
+}
+
+.bGraficos{
+  margin-left: 204px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+@media screen and (min-width: 800px) {
+
+  .secConsts {
+    display: inline;
     position: absolute;
-    text-align: center;
-    top: 12px;
-    font-size: 10px;
-    right: 105px;
+    bottom: 20px;
+    transition-duration: 1s;
+    left: 0px;
   }
 
-  .iconEnergy{
-    margin-left: 198px;
-    margin-top: 8px;
+  .secButtons{
+    margin-left: 350px;
+    bottom: -50px;
   }
 
   .box {
-    width: 600px;
-    left: calc(50% - 300px);
+    width: 800px;
+    left: calc(50% - 500px);
     top: calc(50% - 200px);
     height: 400px;
     transition-duration: 1s;
@@ -324,9 +388,15 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   }
 
   .secInfo {
-    top: 160px;
+    top: 150px;
     transition-duration: 1s;
+  }
 
+  .secChart{
+    position: absolute;
+    bottom: 10px;
+    left: 700px;
+    width: 450px;
   }
 
   .secSlicesTemp {
@@ -342,6 +412,7 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
     right: unset;
     transition-duration: 1s;
   }
+  
 
   .detailsBox{
     z-index: 200;
@@ -374,21 +445,6 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
     width: 25px;
     height: 25px;
     transition-duration: 1s;
-  }
-  
-  .secEnergy {
-    position: absolute;
-    bottom: 0px;
-    height: 50px;
-    width: 300px;
-    margin-left: unset;
-    left: 0px;
-    transition-duration: 1s;
-  }
-
-  .discreteProgress{
-    margin-left: 0px;
-    margin-top: unset;
   }
 
 }
