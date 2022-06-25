@@ -137,6 +137,9 @@
         document.getElementById("bControles").style.opacity = '1.0';
         document.getElementById("bGraficos").style.opacity = '0.5';
 
+        var newWidth = window.innerWidth;
+            setInitProperties(newWidth);
+
         document.getElementById('bConstants').onclick = function() {
             document.getElementById("bConstants").style.opacity = '1.0';
             document.getElementById("bControles").style.opacity = '0.5';
@@ -184,8 +187,10 @@
 
         window.addEventListener('resize', function(event){
             var newWidth = window.innerWidth;
-            var newHeight = window.innerHeight;
-            console.log(newWidth);
+            setInitProperties(newWidth);
+        });
+
+        function setInitProperties(newWidth){
             if(newWidth <= 800){
                 document.getElementById("bConstants").style.opacity = '0.5';
                 document.getElementById("bControles").style.opacity = '1.0';
@@ -209,7 +214,7 @@
                 document.getElementById("detailsBox").style.display = "initial";
                 document.getElementById("detailsBoxCooler").style.display = "initial";
             }
-        });
+        }
 
         document.getElementById("custom-slider-kp").addEventListener("input", function(event){
             let value = event.target.value;
