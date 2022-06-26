@@ -386,14 +386,17 @@
             document.getElementById('valueCol').value = data.changePSCooler;
         })
         socket.on('changePSKp', function(data){
+            console.log("changePSKp")
             document.getElementById("current-value-kp").innerText = Number(data.changePSKp).toFixed(1).toString() + "kp";
             document.getElementById("current-value-kp").style.left = `${data.changePSKp*8.5}%`
         })
         socket.on('changePSKi', function(data){
+            console.log("changePSKi")
             document.getElementById("current-value-ki").innerText = Number(data.changePSKi).toFixed(1).toString() + "ki";
             document.getElementById("current-value-ki").style.left = `${data.changePSKi*8.5}%`
         })
         socket.on('changePSKd', function(data){
+            console.log("changePSKd")
             document.getElementById("current-value-kd").innerText = Number(data.changePSKd).toFixed(1).toString() + "kd";
             document.getElementById("current-value-kd").style.left = `${data.changePSKd*8.5}%`
         })
