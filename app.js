@@ -91,7 +91,7 @@ client.on('message', (topic, message) => {
       break;
     case "changePSKd":
       changePSKd = message.toString();
-      io.sockets.emit('changePSKd', {changePSKi})
+      io.sockets.emit('changePSKd', {changePSKd})
       break;
     case "changePSFiltro":
       changePSFiltro = message.toString();
