@@ -17,6 +17,8 @@ var changePSKp = 10.0;
 var changePSKi = 5.0;
 var changePSKd = 5.0;
 
+var changePSFiltro = "semfiltro";
+
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
@@ -54,6 +56,9 @@ client.on('connect', () => {
   client.subscribe('changePSKd', ( err , granted ) => {
     console.log(granted);
   })
+  client.subscribe('changePSFiltro', ( err , granted ) => {
+    console.log(granted);
+  })
 })
 
 client.on('message', (topic, message) => {
@@ -84,9 +89,9 @@ client.on('message', (topic, message) => {
       changePSKi = message.toString();
       io.sockets.emit('changePSKi', {changePSKi})
       break;
-    case "changePSKd":
-      changePSKd = message.toString();
-      io.sockets.emit('changePSKd', {changePSKd})
+    case "changePSFiltro":
+      changePSFiltro = message.toString();
+      io.sockets.emit('changePSFiltro', {changePSFiltro})
       break;
     default:
       break;
@@ -111,6 +116,7 @@ io.on('connection', function(socket){
       changePSKp: changePSKp,
       changePSKi: changePSKi,
       changePSKd: changePSKd,
+      changePSFiltro: changePSFiltro,
     })
     io.sockets.emit('userCount', {
       userCount:userCount, 
@@ -143,5 +149,9 @@ io.on('connection', function(socket){
     socket.on('sendKd', data => {
       console.log(data);
       client.publish('changePSKd', data)
+    })
+
+    socket.on('filtro', data => {
+      client.publish('changePSFiltro', data)
     })
 })

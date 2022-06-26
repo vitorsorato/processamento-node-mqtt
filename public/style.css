@@ -363,6 +363,33 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   border-bottom-right-radius: 20px;
 }
 
+.bFilters{
+  cursor: pointer;
+  position: absolute;
+  width: 70px;
+  margin-top: -40px;
+  height: 30px;
+  background-color: #0a0937;
+  margin-left: 5px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgb(7, 22, 117);
+
+}
+
+.bPassaBaixa{
+  margin-left: 80px;
+}
+
+.bmediaMovel{
+  margin-left: 155px;
+}
+
+.btSmallFilters{
+  position: relative;
+  font-size: 9px;
+}
+
 @media screen and (min-width: 800px) {
 
   .secConsts {
@@ -388,7 +415,7 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   }
 
   .secInfo {
-    top: 150px;
+    top: 100px;
     transition-duration: 1s;
   }
 

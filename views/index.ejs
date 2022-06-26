@@ -39,6 +39,23 @@
         </section>
         <section class="secConsts" id="secConsts">
             <ul>
+                <div class="bFilters" id="semfiltros">
+                    <small class="btSmallFilters">
+                        Sem filtros
+                    </small>
+                </div>
+                <div class="bFilters bPassaBaixa" id="passabaixa">
+                    <small class="btSmallFilters">
+                        Passa-baixa
+                    </small>
+                </div>
+                <div class="bFilters bmediaMovel" id="mediamovel">
+                    <small class="btSmallFilters">
+                        Média móvel
+                    </small>
+                </div>
+            </ul>
+            <ul>
                 <div class="slider">
                     <div class="show-value" id="show-value-kp">
                         <span id="current-value-kp"></span>
@@ -127,18 +144,19 @@
     </div>
     <script type="text/javascript">
         var stemp = 27.5;
-        var spid = 0;
 
         var temps = [];
         var labels = [];
-        var pids = []
 
         document.getElementById("bConstants").style.opacity = '0.5';
         document.getElementById("bControles").style.opacity = '1.0';
         document.getElementById("bGraficos").style.opacity = '0.5';
 
+        setViewSemFiltro();
+
         var newWidth = window.innerWidth;
             setInitProperties(newWidth);
+
 
         document.getElementById('bConstants').onclick = function() {
             document.getElementById("bConstants").style.opacity = '1.0';
@@ -216,6 +234,21 @@
             }
         }
 
+        document.getElementById('semfiltros').onclick = function() {
+            setViewSemFiltro();
+            socket.emit('filtro', "semfiltros");
+        };
+
+        document.getElementById('passabaixa').onclick = function() {
+            setViewPassaBaixa();
+            socket.emit('filtro', "passabaixa");
+        };
+
+        document.getElementById('mediamovel').onclick = function() {
+            setViewMediaMovel();
+            socket.emit('filtro', "mediamovel");
+        };
+
         document.getElementById("custom-slider-kp").addEventListener("input", function(event){
             let value = event.target.value;
             document.getElementById("current-value-kp").innerText = Number(value).toFixed(1).toString() + "kp";
@@ -260,6 +293,26 @@
             socket.emit('sendKd', value);
         }
 
+        function setViewSemFiltro(){
+            document.getElementById("semfiltros").style.opacity = '1.0';
+            document.getElementById("passabaixa").style.opacity = '0.5';
+            document.getElementById("mediamovel").style.opacity = '0.5';
+        }
+
+        function setViewPassaBaixa(){
+            document.getElementById("semfiltros").style.opacity = '0.5';
+            document.getElementById("passabaixa").style.opacity = '1.0';
+            document.getElementById("mediamovel").style.opacity = '0.5';
+        }
+
+        function setViewMediaMovel(){
+            document.getElementById("semfiltros").style.opacity = '0.5';
+            document.getElementById("passabaixa").style.opacity = '0.5';
+            document.getElementById("mediamovel").style.opacity = '1.0';
+        }
+
+
+
         var socket = io.connect();
         socket.on('userCount', function(data){
             console.log("Usuários Conectados: " + data.userCount);
@@ -280,12 +333,12 @@
             rangeSlideCol(data.changePSCooler);
             document.getElementById('valueCol').value = data.changePSCooler;
             rangeSlideTemp(data.changePSTemperatura);
+
             document.getElementById('valueTemp').value = Number(data.changePSTemperatura).toFixed(1);
 
             document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
 
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
-
 
         })
 
@@ -328,20 +381,35 @@
             document.getElementById("current-value-kd").style.left = `${data.changePSKd*8.5}%`
         })
 
+        socket.on('changePSFiltro', function(data){
+            if(data.changePSFiltro == "semfiltros"){
+                setViewSemFiltro();
+            }
+
+            if(data.changePSFiltro == "passabaixa"){
+                setViewPassaBaixa();
+            }
+
+            if(data.changePSFiltro == "mediamovel"){
+                setViewMediaMovel();
+            }
+        })
+
+
+
+
         function myLoop() {
             setTimeout(function() {
 
                 if(labels.length > 150){
                     labels.shift()
                     temps.shift()
-                    pids.shift()
                 }
 
                 var d = new Date(); // for now
                 datetext = pad(d.getMinutes())+"."+pad(d.getSeconds());
                 labels.push("");
                 temps.push(stemp);
-                pids.push(spid);
 
                 myChart.update();
 
@@ -355,18 +423,12 @@
         data = {
             labels: labels,
             datasets: [
-                {
-                    label: 'Temperatura',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: temps,
-                    }, 
-                {
-                    label: 'PID',
-                    backgroundColor: 'rgb(186, 217, 179)',
-                    borderColor: 'rgb(186, 217, 179)',
-                    data: pids,
-                }
+            {
+                label: 'Temperatura',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: temps,
+            }
         ]
         };
 
