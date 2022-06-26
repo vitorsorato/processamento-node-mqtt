@@ -17,7 +17,7 @@ var changePSKp = 10.0;
 var changePSKi = 5.0;
 var changePSKd = 5.0;
 
-var changePSFiltro = "semfiltro";
+var changePSFiltro = "semfiltros";
 
 
 app.set('views', './views')

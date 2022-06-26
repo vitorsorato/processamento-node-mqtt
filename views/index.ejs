@@ -152,7 +152,10 @@
         document.getElementById("bControles").style.opacity = '1.0';
         document.getElementById("bGraficos").style.opacity = '0.5';
 
-        setViewSemFiltro();
+        document.getElementById("semfiltros").style.opacity = '0.5';
+        document.getElementById("passabaixa").style.opacity = '0.5';
+        document.getElementById("mediamovel").style.opacity = '0.5';
+
 
         var newWidth = window.innerWidth;
             setInitProperties(newWidth);
@@ -297,6 +300,7 @@
             document.getElementById("semfiltros").style.opacity = '1.0';
             document.getElementById("passabaixa").style.opacity = '0.5';
             document.getElementById("mediamovel").style.opacity = '0.5';
+
         }
 
         function setViewPassaBaixa(){
@@ -339,6 +343,19 @@
             document.getElementById("mainProgress").style.backgroundPosition = `-${data.PID/255*100}%`
 
             document.getElementById('ultimaTemperatura').textContent = data.ultimaTemperatura + " °C";
+
+            if(data.changePSFiltro == "semfiltros"){
+                setViewSemFiltro();
+                console.log("semfiltros")
+            }
+
+            if(data.changePSFiltro == "passabaixa"){
+                setViewPassaBaixa();
+            }
+
+            if(data.changePSFiltro == "mediamovel"){
+                setViewMediaMovel();
+            }
 
         })
 
@@ -384,6 +401,7 @@
         socket.on('changePSFiltro', function(data){
             if(data.changePSFiltro == "semfiltros"){
                 setViewSemFiltro();
+                console.log("semfiltros")
             }
 
             if(data.changePSFiltro == "passabaixa"){
