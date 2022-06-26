@@ -14,8 +14,8 @@ var changePSTemperatura = 27.5;
 var changePSCooler = 0.0;
 var PID = 0;
 var changePSKp = 10.0;
-var changePSKi = 5.0;
-var changePSKd = 5.0;
+var changePSKi = 1.0;
+var changePSKd = 1.0;
 
 var changePSFiltro = "semfiltros";
 
