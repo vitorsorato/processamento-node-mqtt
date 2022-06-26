@@ -368,8 +368,9 @@ input.rangeVertical.Cool[type="range"]::-webkit-slider-thumb{
   position: absolute;
   width: 70px;
   margin-top: -40px;
+  opacity: '0.5';
   height: 30px;
-  background-color: #0a0937;
+  background-color: #09094a;
   margin-left: 5px;
   text-align: center;
   border-radius: 10px;
